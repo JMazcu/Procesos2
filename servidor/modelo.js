@@ -3,7 +3,16 @@ function Sistema() {
     this.usuarios = {};
 
     this.agregarUsuario = function (nombre) {
-        this.usuarios[nombre] = new Usuario(nombre);
+        let res = { "nombre": -1 }
+        if (!this.usuarios[nombre]) {
+            this.usuarios[nombre] = new Usuario(nombre);
+            res.nombre = nombre;
+        }
+        else {
+            console.log("El nick " + nombre + " ya está en uso.");
+            res = {"Este usuario ya existe": nombre};
+        }
+        return res;
     }
 
     this.obtenerUsuarios = function () {
@@ -12,20 +21,21 @@ function Sistema() {
 
     this.usuarioActivo = function (nombre) {
         if (this.usuarios[nombre]) {
-            return "El usuario " + nombre + " existe.";
+            return { "activo": true};
         }
-        return "El usuario " + nombre + " NO existe.";
+        return { "Activo": false };
     }
 
     this.eliminarUsuario = function (nombre) {
         if (this.usuarios[nombre]) {
             delete this.usuarios[nombre];
-            return "Se ha eliminado al usuario " + nombre;
+            return { "Eliminado": nombre };
         }
+        return { "No existe": nombre };
     }
 
     this.numeroUsuarios = function () {
-        return Object.keys(this.usuarios).length;
+        return { "N.º": Object.keys(this.usuarios).length };
     }
 }
 

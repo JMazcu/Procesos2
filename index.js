@@ -15,6 +15,34 @@ app.get("/", function (request, response) {
     response.send(contenido);
 });
 
+app.get("/agregarUsuario/:nombre", function (request, response) {
+    let nick = request.params.nombre;
+    let res = sistema.agregarUsuario(nick);
+    response.send(res);
+});
+
+app.get("/obtenerUsuarios", function (request, response) {
+    let res = sistema.obtenerUsuarios();
+    response.send(res);
+});
+
+app.get("/usuarioActivo/:nombre", function (request, response) {
+    let nick = request.params.nombre;
+    let res = sistema.usuarioActivo(nick);
+    response.send(res);
+});
+
+app.get("/numeroUsuarios", function (request, response) {
+    let res = sistema.numeroUsuarios();
+    response.send(res);
+});
+
+app.get("/eliminarUsuario/:nombre", function (request, response) {
+    let nick = request.params.nombre;
+    let res = sistema.eliminarUsuario(nick);
+    response.send(res);
+});
+
 app.listen(PORT, () => {
     console.log(`App está escuchando en el puerto ${PORT}`);
     console.log('Ctrl+C para salir');

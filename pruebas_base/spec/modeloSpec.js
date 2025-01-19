@@ -6,12 +6,12 @@ describe('El sistema', function () {
     });
 
     it('inicialmente no tiene usuarios', function () {
-        expect(sistema.numeroUsuarios()).toEqual(0);
+        expect(sistema.numeroUsuarios()["N.º"]).toEqual(0);
     });
 
     it('permite agregar usuarios', function () {
         sistema.agregarUsuario("u1");
-        expect(sistema.numeroUsuarios()).toEqual(1);
+        expect(sistema.numeroUsuarios()["N.º"]).toEqual(1);
     });
 
     it('entrega la lista de usuarios', function () {
@@ -29,7 +29,7 @@ describe('El sistema', function () {
     it('permite eliminar usuarios', function () {
         sistema.agregarUsuario("u1");
         sistema.eliminarUsuario("u1");
-        expect(sistema.numeroUsuarios()).toEqual(0);
+        expect(sistema.numeroUsuarios()["N.º"]).toEqual(0);
     });
 })
 
