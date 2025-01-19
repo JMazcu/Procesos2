@@ -4,8 +4,22 @@
   "description": "Trabajo de procesos",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "testW": "node_modules\\.bin\\jasmine-node servidor",
+    "test": "./node_modules/.bin/jasmine-node servidor"
   },
+
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JMazcu/Procesos2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JMazcu/Procesos2/issues"
+  },
+  "homepage": "https://github.com/JMazcu/Procesos2#readme"
 }
