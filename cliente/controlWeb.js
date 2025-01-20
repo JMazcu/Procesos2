@@ -1,10 +1,14 @@
 function ControlWeb() {
     this.mostrarAgregarUsuario = function () {
-        let cadena = '<div id="divAu" class="form-group">'
-            + '<label for= "nombreAu"> Nombre:</label>'
-            + '<input id="nombreAu" type="text" class="form-control" ></input>'
-            + '<button id="btnAu" type="submit" class="btn btn-primary">Confirmar</button>'
-            +'</div>';
+        let cadena = '<div id="divAu">'
+            + '<div class="card"><div class="card-body">'
+            + '<div class="form-group">'
+            + '<label for= "nombreAu"> Registrarse:</label>'
+            + '<p><input id="nombreAu" type="text" class="form-control" placeholder="Introduzca un nombre"></input></p>'
+            + '<button id="btnAu" type="submit" class="btn btn-primary">Registrarse</button>'
+            + ' <div> <a href="/auth/google"><img src="./cliente/img/web_light_rd_SI@1x.png" style="height:40px;"></a></div>'
+            + '</div>'
+            + '</div></div></div>';
         $("#au").append(cadena);
         $("#btnAu").on("click", function () {
             let nombre = $("#nombreAu").val();

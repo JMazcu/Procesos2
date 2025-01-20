@@ -8,13 +8,14 @@
     "testW": "node_modules\\.bin\\jasmine-node servidor",
     "test": "./node_modules/.bin/jasmine-node servidor"
   },
-
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2"
+    "cookie-session": "^2.1.0",
+    "express": "^4.21.2",
+    "passport": "^0.5.3",
+    "passport-google-oauth20": "^2.0.0"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JMazcu/Procesos2.git"
