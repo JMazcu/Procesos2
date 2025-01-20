@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const passport = require("passport");
 const cookieSession = require("cookie-session");
+const bodyParser = require("body-parser");
 require("./servidor/passport-setup.js");
 const modelo = require("./servidor/modelo.js");
 
@@ -16,6 +17,9 @@ app.use(cookieSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 let sistema = new modelo.Sistema();
 
@@ -57,6 +61,13 @@ app.get("/auth/google", passport.authenticate('google', { scope: ['profile', 'em
 
 app.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/fallo' }),
+    function (req, res) {
+        res.redirect('/good');
+    }
+);
+
+app.post('/oneTap/callback',
+    passport.authenticate('google-one-tap', { failureRedirect: '/fallo' }),
     function (req, res) {
         res.redirect('/good');
     }

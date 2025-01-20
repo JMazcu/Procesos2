@@ -11,11 +11,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.3",
     "cookie-session": "^2.1.0",
     "express": "^4.21.2",
     "mongodb": "^4.4.0",
     "passport": "^0.5.3",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "passport-google-one-tap": "^1.0.1"
   },
   "repository": {
     "type": "git",

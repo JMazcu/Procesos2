@@ -22,6 +22,9 @@
 
     <!-- JQuery - Cookie -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- One Tap -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -53,6 +56,12 @@
         <div id="nu"></div>
         <div id="eu"></div>
     </div>
+    <div id="g_id_onload"
+         data-client_id="958785136788-qdefmp1b32jg0k2vqa1066tn9qvu0bpb.apps.googleusercontent.com"
+         data-login_uri="/oneTap/callback"
+         data-skip_prompt_cookie="nombre"></div>
+    <!--data-client_id="958785136788-qdefmp1b32jg0k2vqa1066tn9qvu0bpb.apps.googleusercontent.com"--> <!-- localhost -->
+    <!--data-client_id="958785136788-92ev3k4164sb52fqn998maku6tb13l0l.apps.googleusercontent.com"--> <!-- producción -->
 
     <script>
         rest = new ClienteRest();
