@@ -2,16 +2,20 @@ function ClienteRest() {
     this.agregarUsuario = function (nombre) {
         var cli = this;
         $.getJSON("/agregarUsuario/" + nombre, function (data) {
+            let msg = "El nombre " + nombre + " está en uso.";
             if (data.nombre != -1) {
                 console.log("El usuario " + nombre + " ha sido registrado.");
+                msg = "Bienvenido al sistema, " + nombre;
+                $.cookie("nombre", nombre);
             }
             else {
                 console.log("El nombre " + nombre + " ya está en uso.");
             }
-        })
+            cw.mostrarMensaje(msg);
+        });
     }
 
-    this.agregarUsuarioAlter = function (nombre) {
+    /*this.agregarUsuarioAlter = function (nombre) {
         $.ajax({
             type: 'GET',
             url: '/agregarUsuario/' + nombre,
@@ -29,7 +33,7 @@ function ClienteRest() {
             },
             contentType:'application/json'
         });
-    }
+    }*/
 
     this.obtenerUsuarios = function () {
         var cli = this;

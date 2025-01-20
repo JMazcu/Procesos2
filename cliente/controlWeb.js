@@ -65,6 +65,30 @@ function ControlWeb() {
         });
     }
 
+    this.comprobarSesion = function () {
+        let nombre = $.cookie("nombre");
+        if (nombre) {
+            cw.mostrarMensaje("Bienvenido al sistema, " + nombre);
+        }
+        else {
+            cw.mostrarAgregarUsuario();
+        }
+    }
+
+    this.salir = function () {
+        $.removeCookie("nombre");
+        location.reload();
+        cw.mostrarMensaje("Se ha cerrado la sesión.");
+    }
+
+    this.mostrarMensaje = function (msg) {
+        $("#divMsg").remove();
+        let cadena = '<div id="divMsg" class="form-group">'
+            + '<h4>' + msg + '</h4>'
+            + '</div>';
+        $("#msg").append(cadena);
+    }
+
     this.mostrarTodo = function () {
         this.mostrarAgregarUsuario();
         this.mostrarObtenerUsuarios();
