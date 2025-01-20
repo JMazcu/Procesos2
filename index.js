@@ -63,13 +63,11 @@ app.get('/google/callback',
 );
 
 app.get("/good", function (request, response) {
-    let nombre = request.user.emails[0].value;
-    if (nombre) {
-        sistema.agregarUsuario(nombre);
-    }
-    //console.log(request.user.emails[0].value);
-    response.cookie('nombre', nombre);
-    response.redirect('/');
+    let email = request.user.emails[0].value;
+    sistema.usuarioGoogle({"email": email }, function (obj) {
+        response.cookie('nombre', obj.email);
+        response.redirect('/');
+    });
 });
 
 app.get("/fallo", function (request, response) {
