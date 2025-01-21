@@ -1,4 +1,6 @@
 const datos = require("./cad.js");
+const correo = require("./email.js");
+const bcrypt = require("bcrypt");
 
 function Sistema() {
 
@@ -19,6 +21,66 @@ function Sistema() {
             console.log("El nick " + nombre + " ya está en uso.");
         }
         return res;
+    }
+
+    this.registrarUsuario = function (obj, callback) {
+        let modelo = this;
+        if (!obj.nombre) {
+            obj.nombre = obj.email;
+        }
+        this.cad.buscarUsuario(obj, async function (usr) {
+            if (!usr) {
+                obj.key = Date.now().toString();
+                obj.confirmada = false;
+                let hash = await bcrypt.hash(obj.password, 10);
+                obj.password = hash;
+                modelo.cad.insertarUsuario(obj, function (res) {
+                    callback(res);
+                });
+                correo.enviarEmail(obj.email, obj.key, "Confirmar cuenta");
+            }
+            else {
+                callback({ "email": -1 });
+            }
+        });
+    }
+
+    this.confirmarUsuario = function (obj, callback) {
+        let modelo = this;
+        this.cad.buscarUsuario({ "email": obj.email, "confirmada": false, "key": obj.key }, function (usr) {
+            if (usr) {
+                usr.confirmada = true;
+                modelo.cad.actualizarUsuario(usr, function (res) {
+                    callback({ "email": res.email }); //callback(res)
+                });
+            }
+            else
+            {
+                callback({ "email": - 1 });
+            }
+    })
+}
+
+
+    this.loginUsuario = function (obj, callback) {
+        let modelo = this;
+        this.cad.buscarUsuario({ "email": obj.email, "confirmada": true }, function (usr) {
+            if (!usr) {
+                callback({ "email": -1 });
+                return -1;
+            }
+            else {
+                bcrypt.compare(obj.password, usr.password, function (err, result) {
+                    if (result) {
+                        callback(usr);
+                        modelo.agregarUsuario(usr);
+                    }
+                    else {
+                        callback({ "email": -1 });
+                    }
+                });
+            }
+        });
     }
 
     this.obtenerUsuarios = function () {

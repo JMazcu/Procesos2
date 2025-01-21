@@ -2,6 +2,7 @@ const fs = require("fs");
 const express = require('express');
 const app = express();
 const passport = require("passport");
+const LocalStrategy = require('passport-local').Strategy;
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 require("./servidor/passport-setup.js");
@@ -17,6 +18,14 @@ app.use(cookieSession({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new
+    LocalStrategy({ usernameField: "email", passwordField: "password" },
+        function (email, password, done) {
+            sistema.loginUsuario({ "email": email, "password": password }, function (user) {
+                return done(null, user);
+            });
+        }
+    ));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -83,6 +92,30 @@ app.get("/good", function (request, response) {
 
 app.get("/fallo", function (request, response) {
     response.send({ nombre: "nook" })
+});
+
+app.post("/registrarUsuario", function (request, response) {
+    sistema.registrarUsuario(request.body, function (res) {
+        response.send({ "nombre": res.email });
+    });
+});
+
+app.get("/confirmarUsuario/:email/:key", function (request, response) {
+    let email = request.params.email;
+    let key = request.params.key;
+    sistema.confirmarUsuario({ "email": email, "key": key }, function (usr) {
+        if (usr.email != -1) {
+            response.cookie('nombre', usr.email);
+        }
+        response.redirect('/');
+    });
+});
+
+app.post('/loginUsuario', passport.authenticate("local", {failureRedirect: "/fallo",successRedirect: "/ok"})
+);
+
+app.get("/ok", function (request, response) {
+    response.send({ nombre: request.user.email })
 });
 
 app.listen(PORT, () => {

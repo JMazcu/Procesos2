@@ -28,6 +28,54 @@ function CAD(){
 			}
 		});
 	}
+
+	this.buscarUsuario = function (obj, callback) {
+		buscar(this.usuarios, obj, callback);
+	}
+
+	function buscar(coleccion, criterio, callback) {
+		coleccion.find(criterio).toArray(function (error, usuarios) {
+			if (usuarios.length == 0) {
+				callback(undefined);
+			}
+			else {
+				callback(usuarios[0]);
+			}
+		});
+	}
+
+	this.insertarUsuario = function (usuario, callback) {
+		insertar(this.usuarios, usuario, callback);
+	}
+
+	function insertar(coleccion, elemento, callback) {
+		coleccion.insertOne(elemento, function (err, result) {
+			if (err) {
+				console.log("error");
+			}
+			else {
+				console.log("Nuevo elemento creado");
+				callback(elemento);
+			}
+		});
+	}
+
+	this.actualizarUsuario = function (obj, callback) {
+		actualizar(this.usuarios, obj, callback);
+	}
+
+	function actualizar(coleccion, obj, callback) {
+		coleccion.findOneAndUpdate({ _id: ObjectId(obj._id) }, { $set: obj },
+			{ upsert: false, returnDocument: "after", projection: { email: 1 } },
+			function (err, doc) {
+				if (err) { throw err; }
+				else {
+					console.log("Elemento actualizado");
+					callback({ email: doc.value.email });
+				}
+			});
+	}
+
 }
 
 module.exports.CAD=CAD;

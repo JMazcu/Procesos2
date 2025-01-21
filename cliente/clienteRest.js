@@ -35,6 +35,59 @@ function ClienteRest() {
         });
     }*/
 
+    this.registrarUsuario = function (email, password) {
+        $.ajax({
+            type: 'POST',
+            url: '/registrarUsuario',
+            data: JSON.stringify({ "email": email, "password": password }),
+            success: function (data) {
+                if (data.nombre != -1) {
+                    console.log("El usuario " + data.nombre + " ha sido registrado");
+                    $.cookie("nombre", data.nombre);
+                    cw.limpiar();
+                    cw.mostrarMensaje("Bienvenido, " + data.nombre);
+                    //cw.mostrarLogin();
+                }
+                else {
+                    console.log("El nick está ocupado");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log("Status: " + textStatus);
+                console.log("Error: " + errorThrown);
+            },
+            contentType: 'application/json'
+        });
+    }
+
+    this.loginUsuario = function (email, password) {
+        $.ajax({
+            type: 'POST',
+            url: '/loginUsuario',
+            data: JSON.stringify({ "email": email, "password": password }),
+            success: function (data) {
+                if (data.nick != -1) {
+                    console.log("Usuario " + data.nick + " ha sido registrado");
+                    $.cookie("nick", data.nick);
+                    cw.limpiar();
+                    cw.mostrarMensaje("Bienvenido al sistema, " + data.nick);
+                    //cw.mostrarLogin();
+                }
+                else {
+                    console.log("No se pudo iniciar sesión");
+                    cw.mostrarLogin();
+                    cw.mostrarMensajeLogin("No se pudo iniciar sesión");
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                console.log("Status: " + textStatus);
+                console.log("Error: " + errorThrown);
+            },
+            contentType: 'application/json'
+        });
+    }
+
+
     this.obtenerUsuarios = function () {
         var cli = this;
         $.getJSON("/obtenerUsuarios", function (data) {

@@ -69,13 +69,46 @@ function ControlWeb() {
         });
     }
 
+    this.mostrarRegistro = function () {
+        $("#fmRegistro").remove();
+        $("#registro").load("./cliente/registro.html", function () {
+            $("#btnRegistro").on("click", function (e) {
+                e.preventDefault();
+                let email = $("#email").val();
+                let pwd = $("#pwd").val();
+                if (email && pwd) {
+                    rest.registrarUsuario(email, pwd);
+                    console.log(email + " " + pwd);
+                }
+            });
+        });
+    }
+
+    this.mostrarLogin = function () {
+        if ($.cookie('nombre')) {
+            return true;
+        };
+        $("#fmLogin").remove();
+        $("#login").load("./cliente/login.html", function () {
+            $("#btnLogin").on("click", function () {
+                let email = $("#email").val();
+                let pwd = $("#pwd").val();
+                if (email && pwd) {
+                    rest.loginUsuario(email, pwd);
+                    console.log(email + " " + pwd);
+                }
+            });
+        });
+    }
+
     this.comprobarSesion = function () {
         let nombre = $.cookie("nombre");
         if (nombre) {
             cw.mostrarMensaje("Bienvenido al sistema, " + nombre);
         }
         else {
-            cw.mostrarAgregarUsuario();
+            cw.mostrarRegistro();
+            cw.mostrarLogin();
         }
     }
 
@@ -99,5 +132,13 @@ function ControlWeb() {
         this.mostrarUsuarioActivo();
         this.mostrarNumeroUsuarios();
         this.mostrarEliminarUsuario();
+    }
+
+    this.limpiar = function () {
+        $("#divAu").remove();
+        $("#fmRegistro").remove();
+        $("#fmLogin").remove();
+        $("#divMsg").remove();
+        location.reload();
     }
 }
