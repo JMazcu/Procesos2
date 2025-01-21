@@ -46,7 +46,7 @@ function ClienteRest() {
                     $.cookie("nombre", data.nombre);
                     cw.limpiar();
                     cw.mostrarMensaje("Bienvenido, " + data.nombre);
-                    //cw.mostrarLogin();
+                    cw.mostrarLogin();
                 }
                 else {
                     console.log("El nick está ocupado");
@@ -64,19 +64,19 @@ function ClienteRest() {
         $.ajax({
             type: 'POST',
             url: '/loginUsuario',
-            data: JSON.stringify({ "email": email, "password": password }),
+            data: JSON.stringify({ "email":email, "password":password }),
             success: function (data) {
-                if (data.nick != -1) {
-                    console.log("Usuario " + data.nick + " ha sido registrado");
-                    $.cookie("nick", data.nick);
+                if (data.nombre != -1) {
+                    console.log("El usuario " + data.nombre + " ha iniciado sesión");
+                    $.cookie("nombre", data.nombre);
                     cw.limpiar();
-                    cw.mostrarMensaje("Bienvenido al sistema, " + data.nick);
-                    //cw.mostrarLogin();
+                    cw.mostrarMensaje("Bienvenido al sistema, " + data.nombre);
+                    cw.mostrarLogin();
                 }
                 else {
                     console.log("No se pudo iniciar sesión");
                     cw.mostrarLogin();
-                    cw.mostrarMensajeLogin("No se pudo iniciar sesión");
+                    cw.mostrarMensaje("No se pudo iniciar sesión");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -87,6 +87,12 @@ function ClienteRest() {
         });
     }
 
+    this.cerrarSesion = function () {
+        $.getJSON("/cerrarSesion", function () {
+            console.log("Sesión cerrada");
+            $.removeCookie("nombre");
+        });
+    }
 
     this.obtenerUsuarios = function () {
         var cli = this;

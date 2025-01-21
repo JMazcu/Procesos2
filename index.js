@@ -32,6 +32,15 @@ app.use(bodyParser.json());
 
 let sistema = new modelo.Sistema();
 
+const haIniciado = function (request, response, next) {
+    if (request.user) {
+        next();
+    }
+    else {
+        response.redirect("/");
+    }
+}
+
 app.get("/", function (request, response) {
     var contenido = fs.readFileSync(__dirname + "/cliente/index.html");
     response.setHeader("Content-type", "text/html");
@@ -44,23 +53,23 @@ app.get("/agregarUsuario/:nombre", function (request, response) {
     response.send(res);
 });
 
-app.get("/obtenerUsuarios", function (request, response) {
+app.get("/obtenerUsuarios", haIniciado, function (request, response) {
     let res = sistema.obtenerUsuarios();
     response.send(res);
 });
 
-app.get("/usuarioActivo/:nombre", function (request, response) {
+app.get("/usuarioActivo/:nombre", haIniciado, function (request, response) {
     let nick = request.params.nombre;
     let res = sistema.usuarioActivo(nick);
     response.send(res);
 });
 
-app.get("/numeroUsuarios", function (request, response) {
+app.get("/numeroUsuarios", haIniciado, function (request, response) {
     let res = sistema.numeroUsuarios();
     response.send(res);
 });
 
-app.get("/eliminarUsuario/:nombre", function (request, response) {
+app.get("/eliminarUsuario/:nombre", haIniciado, function (request, response) {
     let nick = request.params.nombre;
     let res = sistema.eliminarUsuario(nick);
     response.send(res);
@@ -116,6 +125,15 @@ app.post('/loginUsuario', passport.authenticate("local", {failureRedirect: "/fal
 
 app.get("/ok", function (request, response) {
     response.send({ nombre: request.user.email })
+});
+
+app.get("/cerrarSesion", haIniciado, function (request, response) {
+    let nombre = request.user.nombre;
+    request.logout();
+    response.redirect("/");
+    if (nombre) {
+        sistema.eliminarUsuario(nombre);
+    }
 });
 
 app.listen(PORT, () => {

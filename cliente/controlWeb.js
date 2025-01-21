@@ -89,10 +89,10 @@ function ControlWeb() {
             return true;
         };
         $("#fmLogin").remove();
-        $("#login").load("./cliente/login.html", function () {
+        $("#registro").load("./cliente/login.html", function () {
             $("#btnLogin").on("click", function () {
-                let email = $("#email").val();
-                let pwd = $("#pwd").val();
+                let email = $("#logEmail").val();
+                let pwd = $("#logPwd").val();
                 if (email && pwd) {
                     rest.loginUsuario(email, pwd);
                     console.log(email + " " + pwd);
@@ -108,12 +108,12 @@ function ControlWeb() {
         }
         else {
             cw.mostrarRegistro();
-            cw.mostrarLogin();
         }
     }
 
     this.salir = function () {
         $.removeCookie("nombre");
+        rest.cerrarSesion();
         location.reload();
         cw.mostrarMensaje("Se ha cerrado la sesión.");
     }
