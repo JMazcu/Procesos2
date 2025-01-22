@@ -1,6 +1,6 @@
-//const datos = require("./cad.js");
-//const correo = require("./email.js");
-//const bcrypt = require("bcrypt");
+/*const datos = require("./cad.js");
+const correo = require("./email.js");
+const bcrypt = require("bcrypt");*/
 
 function Sistema() {
 
@@ -14,7 +14,7 @@ function Sistema() {
 
     this.agregarUsuario = function (conjunto) {
         let nombre = conjunto.nombre;
-        let res = { nombre: -1 }
+        let res = { "nombre": -1 }
         if (!this.usuarios[nombre]) {
             this.usuarios[nombre] = new Usuario(conjunto);
             res.nombre = nombre;
@@ -25,7 +25,7 @@ function Sistema() {
         return res;
     }
 
-    this.registrarUsuario = function (obj, callback) {
+    /*this.registrarUsuario = function (obj, callback) {
         let modelo = this;
         if (!obj.nombre) {
             obj.nombre = obj.email;
@@ -82,7 +82,7 @@ function Sistema() {
                 });
             }
         });
-    }
+    }*/
 
     this.obtenerUsuarios = function () {
         let cadena = "";
@@ -93,19 +93,21 @@ function Sistema() {
         return cadena;
     }
 
-    this.usuarioActivo = function (nombre) {
+    this.usuarioActivo = function (obj) {
         res = { "activo": false };
+        let nombre = obj.nombre;
         if (this.usuarios[nombre]) {
             res = { "activo": true };
         }
         return res;
     }
 
-    this.eliminarUsuario = function (nombre) {
-        let res = { nombre: -1 }
+    this.eliminarUsuario = function (obj) {
+        let res = { "eliminado": false };
+        let nombre = obj.nombre;
         if (this.usuarios[nombre]) {
             delete this.usuarios[nombre];
-            res = { nombre: "eliminado" };
+            res.eliminado = true;
         }
         return res;
     }
@@ -114,13 +116,13 @@ function Sistema() {
         return { "num": Object.keys(this.usuarios).length };
     }
 
-    this.usuarioGoogle = function (usr, callback) {
+    /*this.usuarioGoogle = function (usr, callback) {
         let sys = this;
         this.cad.buscarOCrearUsuario(usr, function (obj) {
             callback(obj);
             sys.agregarUsuario(obj.email);
         });
-    }
+    }*/
 
     this.crearPartida = function (email) {
         let usr = this.usuarios[email];
@@ -128,14 +130,14 @@ function Sistema() {
         if (usr && !this.partidas[codigo]) {
             let partida = new Partida(codigo, usr);
             this.partidas[codigo] = partida;
-            this.unirseAPartida(usr, codigo);
-            return codigo
+            this.unirseAPartida(usr.nombre, codigo);
+            return codigo;
         }
         else { return -1; }
     }
 
     this.unirseAPartida = function (email, codigo) {
-        let usr = this.usuarios[email.nombre];
+        let usr = this.usuarios[email];
         let res = false;
         let partida = this.partidas[codigo];
         if (usr && partida) {
@@ -144,7 +146,7 @@ function Sistema() {
         return res;
     }
 
-    this.obtenerPartidasDisponibles = function (){
+    this.obtenerPartidasDisponibles = function () {
         let lista = [];
         for (var c in this.partidas) {
             let partida = this.partidas[c];
@@ -196,13 +198,16 @@ function Partida(codigo) {
             if (!estaDentro) {
                 this.jugadores.push(usr);
                 console.log("Se ha introducido a " + usr + " en la partida " + this.codigo);
+                return true;
             }
             else {
-                console.log("No se ha podido entrar en la partida: El usuario ya esta dentro")
+                console.log("No se ha podido entrar en la partida: El usuario ya esta dentro");
+                return false;
             }
         }
         else {
             console.log("No se ha podido entrar en la partida: Partida llena");
+            return false;
         }
     }
 }

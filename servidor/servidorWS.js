@@ -12,8 +12,8 @@ function ServidorWS(io) {
                 let lista = sistema.obtenerPartidasDisponibles();
                 srv.enviarATodosMenosRemitente(socket, "listaPartidas", lista);
             });
-            socket.on("unirAPartida", function (datos) {
-                let res = sistema.unirAPartida(datos.email, datos.codigo);
+            socket.on("unirseAPartida", function (datos) {
+                let res = sistema.unirseAPartida(datos.email, datos.codigo);
                 if (res) {
                     socket.join(datos.codigo);
                     srv.enviarAlRemitente(socket, "unidoApartida", { "codigo": datos.codigo });

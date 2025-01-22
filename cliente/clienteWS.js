@@ -9,7 +9,7 @@ function ClienteWS() {
         this.socket.emit("crearPartida", { "email": this.email });
     }
 
-    this.unirseAPartida = function () {
+    this.unirseAPartida = function (codigo) {
         this.socket.emit("unirseAPartida", { "email": this.email, "codigo":codigo });
     }
 
