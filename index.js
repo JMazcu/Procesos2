@@ -1,12 +1,15 @@
 const fs = require("fs");
 const express = require('express');
 const app = express();
+const httpServer = require('http').Server(app);
+const { Server } = require("socket.io");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
 const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 require("./servidor/passport-setup.js");
 const modelo = require("./servidor/modelo.js");
+const moduloWS = require("./servidor/servidorWS.js");
 
 const PORT = process.env.PORT || 3000;
 
@@ -31,6 +34,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 let sistema = new modelo.Sistema();
+let ws = new moduloWS.ServidorWS();
+let io = new Server();
 
 const haIniciado = function (request, response, next) {
     if (request.user) {
@@ -136,7 +141,8 @@ app.get("/cerrarSesion", haIniciado, function (request, response) {
     }
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     console.log(`App está escuchando en el puerto ${PORT}`);
     console.log('Ctrl+C para salir');
-});
+});io.listen(httpServer);
+ws.lanzarServer(io, sistema);

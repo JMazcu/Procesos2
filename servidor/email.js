@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const url = "http://localhost:3000/";
+//const gv = require('./gestorVariables.js');
 //const url = "https://procesos2-958785136788.europe-west1.run.app";
 
 const transporter = nodemailer.createTransport({
@@ -9,6 +10,15 @@ const transporter = nodemailer.createTransport({
 		pass: 'gdhm gqmm bbiu wfyw'
 	}
 });
+
+/*let transporter;
+gv.obtenerOptions(function (res) {
+	options = res;
+	transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: options
+	});
+});*/
 
 //send();
 

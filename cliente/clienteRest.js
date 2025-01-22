@@ -2,7 +2,7 @@ function ClienteRest() {
     this.agregarUsuario = function (nombre) {
         var cli = this;
         $.getJSON("/agregarUsuario/" + nombre, function (data) {
-            let msg = "El nombre " + nombre + " está en uso.";
+            let msg = "El nombre " + nombre + " est&aacute; en uso.";
             if (data.nombre != -1) {
                 console.log("El usuario " + nombre + " ha sido registrado.");
                 msg = "Bienvenido al sistema, " + nombre;
@@ -49,7 +49,9 @@ function ClienteRest() {
                     cw.mostrarLogin();
                 }
                 else {
-                    console.log("El nick está ocupado");
+                    console.log("Ya existe una cuenta con este correo");
+                    cw.mostrarMensaje("Ya existe una cuenta registrada con este correo");
+                    cw.mostrarModal("No se ha podido registrar el usuario");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {
@@ -69,14 +71,15 @@ function ClienteRest() {
                 if (data.nombre != -1) {
                     console.log("El usuario " + data.nombre + " ha iniciado sesión");
                     $.cookie("nombre", data.nombre);
+                    ws.email = data.nombre;
                     cw.limpiar();
                     cw.mostrarMensaje("Bienvenido al sistema, " + data.nombre);
                     cw.mostrarLogin();
                 }
                 else {
-                    console.log("No se pudo iniciar sesión");
-                    cw.mostrarLogin();
-                    cw.mostrarMensaje("No se pudo iniciar sesión");
+                    console.log("No se ha podido iniciar sesión");
+                    cw.mostrarMensaje("No se ha podido iniciar sesi&oacute;n");
+                    cw.mostrarModal("No se ha podido iniciar sesi&oacute;n");
                 }
             },
             error: function (xhr, textStatus, errorThrown) {

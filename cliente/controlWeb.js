@@ -31,7 +31,7 @@ function ControlWeb() {
 
     this.mostrarUsuarioActivo = function () {
         let cadena = '<div id="divUa" class="form-group">'
-            + '<label for= "nombreUa"> Comprobar si está activo:</label>'
+            + '<label for= "nombreUa"> Comprobar si est&aacute; activo:</label>'
             + '<input id="nombreUa" type="text" class="form-control" ></input>'
             + '<button id="btnUa" type="submit" class="btn btn-primary">Comprobar</button>'
             + '</div>';
@@ -45,7 +45,7 @@ function ControlWeb() {
 
     this.mostrarNumeroUsuarios = function () {
         let cadena = '<div id="divNu" class="form-group">'
-            + '<label for= "btnNu"> Mostrar n.º de usuarios:</label>'
+            + '<label for= "btnNu"> Mostrar n.&deg; de usuarios:</label>'
             + '<button id="btnNu" type="submit" class="btn btn-primary">Mostrar</button>'
             + '</div>';
         $("#nu").append(cadena);
@@ -115,7 +115,7 @@ function ControlWeb() {
         $.removeCookie("nombre");
         rest.cerrarSesion();
         location.reload();
-        cw.mostrarMensaje("Se ha cerrado la sesión.");
+        cw.mostrarMensaje("Se ha cerrado la sesi&oacute;n.");
     }
 
     this.mostrarMensaje = function (msg) {
@@ -124,6 +124,15 @@ function ControlWeb() {
             + '<h4>' + msg + '</h4>'
             + '</div>';
         $("#msg").append(cadena);
+    }
+
+    this.mostrarModal = function (m) {
+        $("#msg").remove();
+        let cadena = "<div id='msg'>" + m + "</div>";
+        $("#mBody").append(cadena);
+        $("#miModal").modal();
+        //$('#btnModal').on('click',function(){
+        //});
     }
 
     this.mostrarTodo = function () {
